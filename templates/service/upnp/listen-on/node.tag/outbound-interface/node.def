@@ -1,3 +1,4 @@
 type: txt
-help: Set outbound interface [REQUIRED]
+help: Outbound interface [REQUIRED]
 allowed: /opt/vyatta/sbin/vyatta-interfaces.pl --show=all
+
