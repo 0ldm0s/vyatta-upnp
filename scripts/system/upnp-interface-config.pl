@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Module: Vyatta::Siproxd.pm
+# Module: upnp-interface-config.pl
 # 
 # **** License ****
 # This program is free software; you can redistribute it and/or modify
@@ -35,22 +35,23 @@ use strict;
 
 my $config = new Vyatta::Config;
 
-my ($setup, $update, $stop, $inbound_interface);
+my ($setup, $update, $stop, $inbound_intf);
 
 GetOptions(
     "update!"   => \$update,
     "stop!"     => \$stop,
-    "dev=s"     => \$inbound_interface,
+    "dev=s"     => \$inbound_intf,
 );
 
 if ($update) {
-	my $outbound_interface = $config->returnValue("service upnp listen-on $inbound_interface outbound-interface");	
-	restart_daemon($inbound_interface, $outbound_interface);
+        my $path = "service upnp listen-on $inbound_intf outbound-interface";	
+        my $outbound_intf = $config->returnValue($path);
+	restart_daemon($inbound_intf, $outbound_intf);
 	exit 0;
 }
 
 if ($stop) {
-	stop_daemon($inbound_interface);
+	stop_daemon($inbound_intf);
 	exit 0;
 }
 

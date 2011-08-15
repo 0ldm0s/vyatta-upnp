@@ -55,33 +55,37 @@ sub is_running {
 }
 
 sub start_daemon {
-    my ($inbound_interface, $outbound_interface) = @_;
+    my ($inbound_intf, $outbound_intf) = @_;
 
-    print "Starting upnpd instance for $inbound_interface ($outbound_interface)\n";
-    system("$start_stop_daemon -b -m -p /var/run/upnpd-$inbound_interface.pid --start --quiet --exec $daemon -- -f \"$outbound_interface\" \"$inbound_interface\"");
+    print "Starting upnpd instance for $inbound_intf ($outbound_intf)\n";
+    my ($cmd, $rc);
+    $cmd  = "$start_stop_daemon -b -m -p /var/run/upnpd-$inbound_intf.pid";
+    $cmd .= " --start --quiet --exec $daemon -- ";
+    $cmd .= " -f \"$outbound_intf\" \"$inbound_intf\"";
+    $rc = system($cmd);
 }
 
 sub stop_daemon {
-    my ($inbound_interface) = @_;
-    my $pid_file = "/var/run/upnpd-$inbound_interface.pid";
+    my ($inbound_intf) = @_;
+    my $pid_file = "/var/run/upnpd-$inbound_intf.pid";
     my $pid      = is_running($pid_file);
     if ($pid != 0) {
-        print "Stopping upnpd instance for $inbound_interface\n";
+        print "Stopping upnpd instance for $inbound_intf\n";
         system("kill -INT $pid");
     }
 }
 
 sub restart_daemon {
-    my ($inbound_interface, $outbound_interface) = @_;
-    my $pid_file = "/var/run/upnpd-$inbound_interface.pid";
+    my ($inbound_intf, $outbound_intf) = @_;
+    my $pid_file = "/var/run/upnpd-$inbound_intf.pid";
     my $pid      = is_running($pid_file);
     if ($pid != 0) {
         system("kill -INT $pid");
-        print "Stopping upnpd instance for $inbound_interface ($outbound_interface)\n";
+        print "Stopping upnpd instance for $inbound_intf ($outbound_intf)\n";
         sleep 5; # give the daemon a chance to properly shutdown
     } 
-    start_daemon($inbound_interface, $outbound_interface);    
+    start_daemon($inbound_intf, $outbound_intf);    
 }
 
 1;
-#
+
