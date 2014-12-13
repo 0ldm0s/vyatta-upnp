@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Module: upnp-interface-config.pl
+# Module: vyatta-upnp.pl
 # 
 # **** License ****
 # This program is free software; you can redistribute it and/or modify
@@ -27,31 +27,31 @@ use Getopt::Long;
 use POSIX;
 
 use lib '/opt/vyatta/share/perl5';
-use Vyatta::Config;
 use Vyatta::Upnp;
 
 use warnings;
 use strict;
 
-my $config = new Vyatta::Config;
-
-my ($setup, $update, $stop, $inbound_intf);
+my ($setup, $update, $stop);
 
 GetOptions(
+    "setup!"    => \$setup,
     "update!"   => \$update,
     "stop!"     => \$stop,
-    "dev=s"     => \$inbound_intf,
 );
 
+if ($setup) {
+	upnp_setup();
+}
+
 if ($update) {
-        my $path = "service upnp listen-on $inbound_intf outbound-interface";	
-        my $outbound_intf = $config->returnValue($path);
-	restart_daemon($inbound_intf, $outbound_intf);
+	upnp_write_files();
+	restart_daemon();
 	exit 0;
 }
 
 if ($stop) {
-	stop_daemon($inbound_intf);
+	stop_daemon();
 	exit 0;
 }
 

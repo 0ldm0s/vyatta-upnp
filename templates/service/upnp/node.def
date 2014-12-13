@@ -1,1 +1,12 @@
+priority: 920
 help: UPnP Internet Gateway Device (IGD)
+create: sudo /opt/vyatta/sbin/vyatta-upnp.pl --setup || exit 1
+commit:expression: $VAR(./listen-on) != "" && $VAR(./outbound-interface) != "" \
+                   ; "must configure 'listen-on' and 'outbound-interface' parameters"
+delete:expression: "touch /tmp/upnp.$PPID"
+end:expression: "if [ -f \"/tmp/upnp.$PPID\" ]; then \
+        sudo /opt/vyatta/sbin/vyatta-upnp.pl --stop \
+        rm /tmp/upnp.$PPID; \
+      else \
+        sudo /opt/vyatta/sbin/vyatta-upnp.pl --update; \
+      fi; "

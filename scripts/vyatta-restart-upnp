@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if cli-shell-api existsActive service upnp; then
+   /etc/init.d/linux-igd restart
+else
+   echo "upnp service is not running"
+fi

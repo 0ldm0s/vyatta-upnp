@@ -1,0 +1,4 @@
+type: u32
+help: The internet line downstream bit rate reported from the daemon
+syntax:expression: $VAR(@) > 0 ; "Value must be greater than zero"
+val_help: u32:1-4294967295; downstream bitrate (kbytes)
