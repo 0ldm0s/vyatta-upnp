@@ -1,7 +1,7 @@
 cfgdir		  = $(datadir)/vyatta-cfg/templates
 opdir		  = $(datadir)/vyatta-op/templates
 share_perl5dir	  = $(datarootdir)/perl5/Vyatta
-bin_sudo_usersdir = $(bindir)/sudo-users 
+bin_sudo_usersdir = $(bindir)/sudo-users
 curverdir	  = $(sysconfdir)/config-migrate/current
 
 curver_DATA = cfg-version/upnp@1

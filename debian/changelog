@@ -1,3 +1,9 @@
+vyatta-upnp (0.4) stable; urgency=medium
+
+  * Fix typo
+
+ -- Andras Elso <elso.andras@gmail.com>  Fri, 06 Mar 2015 21:35:19 +0100
+
 vyatta-upnp (0.3) stable; urgency=low
 
   * Rewrite the module
